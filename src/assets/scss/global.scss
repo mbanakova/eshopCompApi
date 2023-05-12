@@ -1,0 +1,143 @@
+@import url('https://fonts.googleapis.com/css2?family=PT+Mono&display=swap');
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  overflow-y: scroll;
+}
+
+.body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-width: 320px;
+  min-height: 100vh;
+  color: $dark;
+  background-color: $white;
+  transition: color 0.5s, background-color 0.5s;
+  font-size: 16px;
+  line-height: 1.6;
+  font-family: $mono;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  min-height: 100vh;
+  margin: 0 auto;
+  font-weight: normal;
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex-grow: 1;
+  &.container {
+    padding-top: 30px;
+    padding-bottom: 50px;
+  }
+}
+
+img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.container {
+  max-width: 1240px;
+  width: 100%;
+  padding: 0 30px;
+  margin: 0 auto;
+
+  @media (max-width: $tablet) {
+    padding: 0 20px;
+  }
+
+  @media (max-width: $mobile) {
+    padding: 0 15px;
+  }
+}
+.nav-link {
+  padding: 5px 20px;
+  background-color: $accent;
+  color: $white;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: 400;
+  transition: $tr;
+
+  &.is-active {
+    background-color: $light;
+  }
+
+  &:hover {
+    background-color: lighten($accent, 10%);
+  }
+}
+
+.button {
+  padding: 10px 20px;
+  background-color: $success;
+  color: $white;
+  font-family: $mono;
+  font-size: 16px;
+  text-decoration: none;
+  text-align: center;
+  border-radius: 6px;
+  font-weight: 400;
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: $tr;
+  display: block;
+
+  &:hover {
+    background-color: darken($success, 5%);
+  }
+
+  &--warning {
+    background-color: $bright;
+
+    &:hover {
+      background-color: darken($bright, 5%);
+    }
+  }
+
+  &--error {
+    background-color: $error;
+
+    &:hover {
+      background-color: darken($error, 5%);
+    }
+  }
+}
+
+.section-title {
+  font-size: 22px;
+  margin: 0 0 20px;
+  color: $accent;
+
+  &--center {
+    text-align: center;
+  }
+}
+
+.block-title {
+  font-size: 18px;
+  margin: 0 0 20px;
+  color: $accent;
+
+  &--center {
+    text-align: center;
+  }
+}
+
+p.text {
+  margin: 0;
+}

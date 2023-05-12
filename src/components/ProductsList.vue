@@ -19,8 +19,10 @@
 import { useProductsStore } from '@/stores/products'
 import { vImgSrc } from '@/directives/vImgSrc.js'
 
+const props = defineProps(['limit'])
+
 const productsStore = useProductsStore()
-const products = productsStore.products
+const products = productsStore.products.slice(0, props.limit)
 </script>
 
 <style lang="scss" scoped>

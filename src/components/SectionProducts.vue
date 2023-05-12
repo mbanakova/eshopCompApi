@@ -6,14 +6,16 @@
       vero autem deleniti dolorum commodi soluta incidunt aliquid architecto nisi voluptates fugiat
       sunt aliquam, corrupti ut eos. Fugit veniam inventore quod omnis id?
     </p>
-    <h3 class="block-title">Топ 3:</h3>
-    <ProductsList />
+    <h3 class="block-title">Топ {{ limit }}:</h3>
+    <ProductsList :limit="limit" />
     <RouterLink class="button product__button" to="/catalog">Все продукты</RouterLink>
   </section>
 </template>
 
 <script setup>
+import { ref } from 'vue'
 import ProductsList from '../components/ProductsList.vue'
+const limit = ref(3)
 </script>
 
 <style lang="scss" scoped>

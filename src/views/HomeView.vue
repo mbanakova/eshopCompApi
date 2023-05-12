@@ -1,7 +1,7 @@
 <template>
-  <main class="container"><ProductsList /></main>
+  <main class="container"><SectionProducts /></main>
 </template>
 
 <script setup>
-import ProductsList from '../components/ProductsList.vue'
+import SectionProducts from '../components/SectionProducts.vue'
 </script>

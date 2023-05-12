@@ -1,6 +1,6 @@
 <template>
   <main class="container">
-    <h1>feedback</h1>
+    <h1>reviews</h1>
   </main>
 </template>
 

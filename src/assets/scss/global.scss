@@ -116,6 +116,14 @@ img {
       background-color: darken($error, 5%);
     }
   }
+
+  &--cta {
+    background-color: $cta;
+
+    &:hover {
+      background-color: darken($cta, 5%);
+    }
+  }
 }
 
 .section-title {

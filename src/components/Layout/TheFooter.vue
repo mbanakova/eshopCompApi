@@ -54,10 +54,28 @@ const year = date.getFullYear()
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-column-gap: 50px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(32, 218, 215, 0.5);
+
+  @media (max-width: $mobile) {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    text-align: center;
+  }
 }
 
 .footer__title {
   margin: 0 0 20px;
+  color: $pale;
+
+  @media (max-width: $mobile) {
+    margin-bottom: 5px;
+  }
+}
+
+.footer__text {
+  margin: 0;
 }
 
 .footer__links {
@@ -74,11 +92,23 @@ const year = date.getFullYear()
   padding: 5px;
   text-decoration: none;
   display: block;
+  transition: $tr;
+
+  &:hover,
+  &:active {
+    color: $bright;
+  }
 }
 
 .footer__bottom {
   align-self: flex-end;
   margin: 0;
   font-size: 12px;
+  padding-top: 20px;
+
+  @media (max-width: $mobile) {
+    text-align: center;
+    align-self: center;
+  }
 }
 </style>

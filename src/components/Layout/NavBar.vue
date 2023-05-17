@@ -15,43 +15,39 @@
             <div class="navbar-item">Мой магаз</div>
           </div>
         </div>
+        <button
+          v-if="menuStore.isMobile"
+          class="navbar__burger"
+          :class="{ 'navbar__burger--open': menuStore.menuOpen }"
+          aria-label="menu"
+          aria-expanded="false"
+          @click.prevent="menuStore.toggleMenu"
+        >
+          <div class="bar"></div>
+        </button>
         <div
           class="navbar__links"
-          :class="{ 'navbar__links--open': showMobileNav }"
+          :class="{ 'navbar__links--open': menuStore.menuOpen }"
           ref="navBarMenuRef"
         >
-          <RouterLink
-            to="/"
-            class="nav-link"
-            active-class="is-active"
-            @click="showMobileNav = false"
+          <RouterLink to="/" class="nav-link" active-class="is-active" @click="menuStore.toggleMenu"
             >Главная</RouterLink
           >
           <RouterLink
             to="/catalog"
             class="nav-link"
             active-class="is-active"
-            @click="showMobileNav = false"
+            @click="menuStore.toggleMenu"
             >Каталог</RouterLink
           >
           <RouterLink
             to="/contacts"
             class="nav-link"
             active-class="is-active"
-            @click="showMobileNav = false"
+            @click="menuStore.toggleMenu"
             >Контакты</RouterLink
           >
         </div>
-        <button
-          class="navbar__burger"
-          :class="{ 'navbar__burger--open': showMobileNav }"
-          aria-label="menu"
-          aria-expanded="false"
-          @click.prevent="toggleMobileNav"
-          ref="navBarBurgerRef"
-        >
-          <div class="bar"></div>
-        </button>
       </div>
     </nav>
   </header>
@@ -60,13 +56,9 @@
 <script setup>
 import { ref } from 'vue'
 import { onClickOutside } from '@vueuse/core'
-// import { useAuthStore } from '@/stores/authStore.js'
-// const authStore = useAuthStore()
+import { useMenuStore } from '@/stores/menu.js'
+const menuStore = useMenuStore()
 const showMobileNav = ref(false)
-
-const toggleMobileNav = () => {
-  showMobileNav.value = !showMobileNav.value
-}
 
 const navBarMenuRef = ref(null)
 const navBarBurgerRef = ref(null)
@@ -172,17 +164,43 @@ onClickOutside(
   gap: 20px;
   align-items: flex-start;
   flex-wrap: wrap;
+  list-style: none;
 
-  &--open {
-    position: absolute;
-    top: 40px;
-    padding: 30px 0;
-    left: 0;
-    width: 100%;
-    height: 100vh;
-    background-color: $bright;
-    flex-direction: column;
-    align-items: center;
+  @media (max-width: $mobile) {
+    display: none;
+    transition: opacity 0.8s 0.6s, clip-path 0.6s 0.4s;
+
+    &--open {
+      display: flex;
+      position: absolute;
+      padding: 30px 0;
+      top: 45px;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      background-color: $bright;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+    }
+  }
+  .mobile-nav-enter-active,
+  .mobile-nav-leave-active {
+    transition: 1s ease all;
+  }
+
+  .mobile-nav-enter-from {
+    clip-path: circle(100px at top right);
+    opacity: 0;
+  }
+  .mobile-nav-enter-to {
+    opacity: 1;
+    clip-path: circle(100% at center);
+  }
+
+  .mobile-nav-leave-to {
+    opacity: 0;
   }
 }
 </style>

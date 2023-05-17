@@ -7,8 +7,12 @@
 
 <script setup>
 import { RouterView } from 'vue-router'
+import { useMenuStore } from './stores/menu'
 import NavBar from '@/components/Layout/NavBar.vue'
 import TheFooter from '@/components/Layout/TheFooter.vue'
+const store = useMenuStore()
+store.checkScreenWidth() // контролирует бургер-меню и body-scroll-lock при открытом меню
+window.addEventListener('resize', store.checkScreenWidth)
 </script>
 
 <style>

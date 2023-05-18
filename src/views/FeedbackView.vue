@@ -33,7 +33,7 @@
             <input
               class="form__star"
               type="radio"
-              value="3"
+              value="2"
               aria-label="Хорошо"
               v-model="userFeedback.rate"
             />
@@ -92,13 +92,13 @@ const routeId = route.params.id
 const product = products.getProduct(routeId)
 
 const date = new Date()
-const timestamp = date.toLocaleDateString()
+const timestamp = date.toLocaleString().replace(',', '')
 const id = date.valueOf()
 
 const userFeedback = reactive({
   productId: routeId,
-  id: id,
-  timestamp: timestamp,
+  id,
+  timestamp,
   rate: '',
   comment: '',
   username: '',
@@ -106,8 +106,6 @@ const userFeedback = reactive({
 })
 
 const submitFeedback = () => {
-  console.log(userFeedback)
-
   feedbacks.addFeedback(userFeedback)
   router.push(`/reviews/${routeId}`)
 }

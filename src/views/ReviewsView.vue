@@ -21,33 +21,20 @@
     <div class="total">
       <div class="total__top">
         <div class="total__stars"></div>
-        <div class="total__rate">4.85 / 5</div>
+        <div class="total__rate">{{ reviews.getProductRating(routeId) }} / 5</div>
       </div>
       <ul class="total__bottom">
-        <li class="total__rate">
-          <h5 class="total__star">5 звёзд</h5>
-          <div class="total__bar"><div class="total__progress"></div></div>
-          <div class="total__counter">6</div>
-        </li>
-        <li class="total__rate">
-          <h5 class="total__star">4 звёзды</h5>
-          <div class="total__bar"><div class="total__progress"></div></div>
-          <div class="total__counter">3</div>
-        </li>
-        <li class="total__rate">
-          <h5 class="total__star">3 звёзды</h5>
-          <div class="total__bar"><div class="total__progress"></div></div>
-          <div class="total__counter">0</div>
-        </li>
-        <li class="total__rate">
-          <h5 class="total__star">2 звёзды</h5>
-          <div class="total__bar"><div class="total__progress"></div></div>
-          <div class="total__counter">0</div>
-        </li>
-        <li class="total__rate">
-          <h5 class="total__star">1 звёзда</h5>
-          <div class="total__bar"><div class="total__progress"></div></div>
-          <div class="total__counter">1</div>
+        <li class="total__rate" v-for="(value, index) in stars" :key="index">
+          <h5 class="total__star">
+            {{ index + 1 }} {{ index + 1 === 1 ? 'звезда' : index + 1 === 5 ? 'звёзд' : 'звезды' }}
+          </h5>
+          <div class="total__bar">
+            <div
+              class="total__progress"
+              :style="{ width: (value / ratesQuantity) * 100 + '%' }"
+            ></div>
+          </div>
+          <div class="total__counter">{{ value }}</div>
         </li>
       </ul>
     </div>
@@ -66,11 +53,28 @@ const reviews = useFeedbacksStore()
 const routeId = route.params.id
 const product = products.getProduct(routeId)
 const productReviews = reviews.getFeedback(routeId)
+const ratesQuantity = reviews.getItemRateQuantity(routeId)
+
+let stars = []
+const itemRates = reviews.getItemRate(routeId)
+
+for (let index = 0; index < 5; index++) {
+  let counter = 0
+  for (const rate of itemRates) {
+    if (rate === index + 1) {
+      counter++
+    }
+  }
+  stars.push(counter)
+}
+
+console.log(stars)
 </script>
 
 <style lang="scss" scoped>
 .reviews {
   display: grid;
+  grid-template-columns: 1fr 300px;
   grid-template-areas:
     'title   .'
     'rates   total'
@@ -91,7 +95,6 @@ const productReviews = reviews.getFeedback(routeId)
   box-shadow: $shadow;
   padding: 20px;
   border-radius: 8px;
-  width: 300px;
 }
 .rates__filter {
   margin-bottom: 20px;
@@ -154,13 +157,21 @@ const productReviews = reviews.getFeedback(routeId)
 }
 
 .rate__timestamp {
-  margin-right: 30px;
+  margin: 0 30px 0 0;
+  font-size: 12px;
   color: $gray;
 }
 
 .rate__user-rate {
-  font-size: 30px;
-  color: $bright;
+  font-size: 20px;
+  background-color: $bright;
+  color: $white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
   margin: 0;
 }
 
@@ -211,11 +222,13 @@ const productReviews = reviews.getFeedback(routeId)
   left: 0;
   top: 0;
   height: inherit;
-  width: 90%;
+  width: 0;
   background-color: $bright;
 }
 
 .total__star {
   margin: 0;
+  max-width: 60px;
+  width: 100%;
 }
 </style>

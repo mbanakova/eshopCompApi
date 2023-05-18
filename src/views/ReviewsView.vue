@@ -8,40 +8,13 @@
         <button class="filter__button">оценке</button>
       </div>
       <ul class="rates__list">
-        <li class="rates__item rate">
+        <li class="rates__item rate" v-for="review in productReviews" :key="review.id">
           <div class="rate__top">
-            <h3 class="rate__user">john doe</h3>
-            <p class="rate__timestamp">10 мая 2023</p>
-            <p class="rate__user-rate">5</p>
+            <h3 class="rate__user">{{ review.username }}</h3>
+            <p class="rate__timestamp">{{ review.timestamp }}</p>
+            <p class="rate__user-rate">{{ review.rate }}</p>
           </div>
-          <p class="rate__comment">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta quam consectetur
-            dolores!
-          </p>
-        </li>
-
-        <li class="rates__item rate">
-          <div class="rate__top">
-            <h3 class="rate__user">john doe</h3>
-            <p class="rate__timestamp">10 мая 2023</p>
-            <p class="rate__user-rate">5</p>
-          </div>
-          <p class="rate__comment">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta quam consectetur
-            dolores!
-          </p>
-        </li>
-
-        <li class="rates__item rate">
-          <div class="rate__top">
-            <h3 class="rate__user">john doe</h3>
-            <p class="rate__timestamp">10 мая 2023</p>
-            <p class="rate__user-rate">5</p>
-          </div>
-          <p class="rate__comment">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Soluta quam consectetur
-            dolores!
-          </p>
+          <p class="rate__comment">{{ review.comment }}</p>
         </li>
       </ul>
     </div>
@@ -84,10 +57,15 @@
 <script setup>
 import { useRoute } from 'vue-router'
 import { useProductsStore } from '@/stores/products'
+import { useFeedbacksStore } from '@/stores/feedbacks'
+
 const route = useRoute()
 const products = useProductsStore()
+const reviews = useFeedbacksStore()
+
 const routeId = route.params.id
 const product = products.getProduct(routeId)
+const productReviews = reviews.getFeedback(routeId)
 </script>
 
 <style lang="scss" scoped>

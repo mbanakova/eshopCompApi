@@ -9,7 +9,9 @@ export const useFeedbacksStore = defineStore('feedbacks', () => {
   }
 
   const getFeedback = (productId) => {
-    return feedbacks.value.filter(feedback => feedback.productId === productId)[0]
+    const result = feedbacks.value.filter(feedback => feedback.productId === productId)
+    console.log(result);
+    return result
   }
 
   return { feedbacks, addFeedback, getFeedback }

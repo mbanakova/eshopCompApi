@@ -78,7 +78,7 @@
 
 <script setup>
 import { reactive } from 'vue'
-import { useRoute } from 'vue-router'
+import { useRoute, useRouter } from 'vue-router'
 import { useProductsStore } from '@/stores/products'
 import { useFeedbacksStore } from '@/stores/feedbacks'
 import { vImgSrc } from '@/directives/vImgSrc.js'
@@ -86,12 +86,19 @@ import { vImgSrc } from '@/directives/vImgSrc.js'
 const products = useProductsStore()
 const feedbacks = useFeedbacksStore()
 const route = useRoute()
+const router = useRouter()
 
 const routeId = route.params.id
 const product = products.getProduct(routeId)
 
+const date = new Date()
+const timestamp = date.toLocaleDateString()
+const id = date.valueOf()
+
 const userFeedback = reactive({
   productId: routeId,
+  id: id,
+  timestamp: timestamp,
   rate: '',
   comment: '',
   username: '',
@@ -102,6 +109,7 @@ const submitFeedback = () => {
   console.log(userFeedback)
 
   feedbacks.addFeedback(userFeedback)
+  router.push(`/reviews/${routeId}`)
 }
 </script>
 

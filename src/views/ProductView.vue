@@ -18,7 +18,9 @@
         </ul>
         <div class="product__rate">
           <div class="product__rate-stars">*****</div>
-          <RouterLink class="product__rate-reviews" to="/reviews">2 отзыва</RouterLink>
+          <RouterLink class="product__rate-reviews" :to="`/reviews/${product.id}`"
+            >2 отзыва</RouterLink
+          >
         </div>
         <p class="product__price">{{ product.price }} ₽</p>
         <div class="product__info-footer">

@@ -80,23 +80,28 @@
 import { reactive } from 'vue'
 import { useRoute } from 'vue-router'
 import { useProductsStore } from '@/stores/products'
+import { useFeedbacksStore } from '@/stores/feedbacks'
 import { vImgSrc } from '@/directives/vImgSrc.js'
 
 const products = useProductsStore()
+const feedbacks = useFeedbacksStore()
 const route = useRoute()
 
 const routeId = route.params.id
 const product = products.getProduct(routeId)
 
 const userFeedback = reactive({
-  product: routeId,
+  productId: routeId,
   rate: '',
   comment: '',
   username: '',
   rulesConfirmed: true
 })
+
 const submitFeedback = () => {
   console.log(userFeedback)
+
+  feedbacks.addFeedback(userFeedback)
 }
 </script>
 

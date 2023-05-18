@@ -1,5 +1,6 @@
 <template>
-  <ul class="products__list">
+  <CssLoader v-if="isLoading" />
+  <ul v-else class="products__list">
     <li class="product" v-for="product in products" :key="product.id">
       <RouterLink class="product__link" :to="`/product/${product.id}`">
         <div class="product__img">
@@ -16,16 +17,39 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useProductsStore } from '@/stores/products'
 import { vImgSrc } from '@/directives/vImgSrc.js'
+import CssLoader from '@/components/CssLoader.vue'
 
 const props = defineProps(['limit'])
-
 const productsStore = useProductsStore()
-const products = productsStore.products.slice(0, props.limit)
+
+let isLoading = ref(false)
+const products = ref([])
+
+const loadProducts = async () => {
+  isLoading.value = true
+  try {
+    products.value = await productsStore.getProductsList(0, props.limit)
+  } catch (error) {
+    console.log(error.message)
+  }
+  isLoading.value = false
+  return products
+}
+
+onMounted(() => {
+  loadProducts()
+})
 </script>
 
 <style lang="scss" scoped>
+.product {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .products__list {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -41,6 +65,11 @@ const products = productsStore.products.slice(0, props.limit)
   color: inherit;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.product__img {
+  position: relative;
 }
 .product__title {
   margin: 0 0 5px;

@@ -1,6 +1,7 @@
 <template>
   <main class="container">
-    <section class="product">
+    <CssLoader v-if="isLoading" />
+    <section v-else class="product">
       <div class="product__img">
         <img :src="vImgSrc(product.img)" alt="" />
         <p class="product__offer">{{ product.offer }}</p>
@@ -16,10 +17,10 @@
           <li class="product__badge">eco</li>
           <li class="product__badge">trend</li>
         </ul>
-        <div class="product__rate">
+        <div class="product__rate" v-if="reviews.productRating.length">
           <div class="product__rate-stars">*****</div>
           <RouterLink class="product__rate-reviews" :to="`/reviews/${product.id}`"
-            >2 отзыва</RouterLink
+            >{{ reviews.productRating.length }} отзыв</RouterLink
           >
         </div>
         <p class="product__price">{{ product.price }} ₽</p>
@@ -36,16 +37,35 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useProductsStore } from '@/stores/products'
+import { useFeedbacksStore } from '@/stores/feedbacks'
 import { vImgSrc } from '@/directives/vImgSrc.js'
+import CssLoader from '@/components/CssLoader.vue'
 
 const products = useProductsStore()
+const reviews = useFeedbacksStore()
 
 const route = useRoute()
 const routeId = route.params.id
+let isLoading = ref(false)
+const product = ref({})
 
-const product = products.getProduct(routeId)
+const loadProduct = async () => {
+  isLoading.value = true
+  try {
+    product.value = await products.getProduct(routeId)
+  } catch (error) {
+    console.log(error.message)
+  }
+  isLoading.value = false
+  return product
+}
+
+onMounted(() => {
+  loadProduct()
+})
 </script>
 
 <style lang="scss" scoped>

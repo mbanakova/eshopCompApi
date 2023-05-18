@@ -67,8 +67,6 @@ for (let index = 0; index < 5; index++) {
   }
   stars.push(counter)
 }
-
-console.log(stars)
 </script>
 
 <style lang="scss" scoped>

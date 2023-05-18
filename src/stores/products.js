@@ -1,8 +1,8 @@
-// import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 export const useProductsStore = defineStore('products', () => {
-  const products = [
+  const products = ref([
     {
       id: 'id4',
       category: 'сумки',
@@ -81,11 +81,16 @@ export const useProductsStore = defineStore('products', () => {
       img: 'p6.png',
       offer: 'Exclusive'
     },
-  ]
+  ])
 
   const getProduct = (id) => {
-    return products.filter(product => product.id === id)[0]
+    return products.value.filter(product => product.id === id)[0]
   }
 
-  return { products, getProduct }
+
+  const getProductsList = (start, limit) => {
+    return products.value.slice(start, limit)
+  }
+
+  return { products, getProduct, getProductsList }
 })

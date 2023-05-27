@@ -1,6 +1,7 @@
 $white: #ffffff;
 $black: #120b16;
 $gray: #929292;
+$dark: rgb(18, 50, 79);
 $dark: #12324f;
 $accent: #156793;
 $light: #20a3d9;
@@ -17,5 +18,7 @@ $tablet: 1023px;
 $roboto: 'Roboto', sans-serif;
 $mono: 'DM Mono', monospace;
 
-$tr: 0.3s all ease-in-out;
 $shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+$modal: rgba(18, 50, 79, 0.4);
+
+$tr: 0.3s all ease-in-out;

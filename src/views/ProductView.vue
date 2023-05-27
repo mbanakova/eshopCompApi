@@ -26,13 +26,33 @@
         <p class="product__price">{{ product.price }} ₽</p>
         <div class="product__info-footer">
           <p class="product__available">В наличии: {{ product.available }}</p>
-          <button class="button button--cta">Купить</button>
+          <button class="button button--cta" @click="viewModal = !viewModal">Купить</button>
         </div>
         <RouterLink class="product__leave-feedback" :to="`/feedback/${product.id}`"
           >Уже купили? Оставьте отзыв!</RouterLink
         >
       </div>
     </section>
+    <teleport to=".modals-container">
+      <div class="modal-outlay" v-if="viewModal">
+        <div class="modal">
+          <h3>Скопируйте сообщение и отправьте мне в Тимс</h3>
+          <div class="modal__text">
+            <p ref="messageText">
+              Привет! {{ product.title }} цвета {{ product.color }} ещё есть в наличии?
+            </p>
+            <button
+              @click="copyMessage"
+              class="copy-button button button--light"
+              :class="{ active: tooltip }"
+            >
+              ❐
+            </button>
+          </div>
+          <button @click="closeModal" class="close-modal">x</button>
+        </div>
+      </div>
+    </teleport>
   </main>
 </template>
 
@@ -43,6 +63,7 @@ import { useProductsStore } from '@/stores/products'
 import { useFeedbacksStore } from '@/stores/feedbacks'
 import { vImgSrc } from '@/directives/vImgSrc.js'
 import CssLoader from '@/components/CssLoader.vue'
+// import Modal from '@/components/ModalComponent.vue'
 
 const products = useProductsStore()
 const reviews = useFeedbacksStore()
@@ -66,6 +87,27 @@ const loadProduct = async () => {
 onMounted(() => {
   loadProduct()
 })
+
+const viewModal = ref(false)
+const messageText = ref(null)
+const tooltip = ref(false)
+
+const copyMessage = () => {
+  try {
+    tooltip.value = true
+    navigator.clipboard.writeText(messageText.value.innerText)
+    setTimeout(() => {
+      tooltip.value = false
+    }, 2000)
+  } catch (error) {
+    console.log(error.message)
+  }
+}
+
+const closeModal = () => {
+  viewModal.value = false
+  tooltip.value = false
+}
 </script>
 
 <style lang="scss" scoped>
@@ -178,5 +220,91 @@ onMounted(() => {
     text-decoration: underline;
     text-underline-offset: 3px;
   }
+}
+
+.modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  background-color: $white;
+  padding: 20px;
+  border-radius: 6px;
+  z-index: 1000;
+  box-shadow: $shadow;
+  transition: $tr;
+}
+
+.modal-outlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: $modal;
+  z-index: 1000;
+}
+
+.modal__text {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.copy-button {
+  position: relative;
+  margin-left: 20px;
+
+  &::before {
+    position: absolute;
+    content: 'Скопировано!';
+    top: -50px;
+    right: 0;
+    z-index: 1000;
+    padding: 8px 12px;
+    font-size: 13px;
+    border-radius: 6px;
+    background-color: $light;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    display: none;
+  }
+
+  &::after {
+    position: absolute;
+    content: '';
+    top: -28px;
+    right: 16px;
+    transform: rotate(45deg);
+    z-index: 999;
+    width: 16px;
+    height: 16px;
+    background-color: $light;
+    display: none;
+  }
+
+  &.active::before,
+  &.active::after {
+    display: block;
+  }
+}
+
+.close-modal {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 30px;
+  height: 30px;
+  background-color: $accent;
+  color: $white;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-size: 16px;
+  border-radius: 6px;
 }
 </style>

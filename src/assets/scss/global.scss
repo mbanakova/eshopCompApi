@@ -129,6 +129,22 @@ img {
       background-color: darken($cta, 5%);
     }
   }
+
+  &--calm {
+    background-color: $accent;
+
+    &:hover {
+      background-color: darken($accent, 5%);
+    }
+  }
+
+  &--light {
+    background-color: $light;
+
+    &:hover {
+      background-color: darken($light, 5%);
+    }
+  }
 }
 
 .section-title {

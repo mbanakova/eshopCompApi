@@ -5,6 +5,7 @@
     <transition name="router"> <component :is="Component" /> </transition
   ></router-view>
   <TheFooter />
+  <div class="modals-container" :class="hidden"></div>
 </template>
 
 <script setup>
